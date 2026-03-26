@@ -1,43 +1,57 @@
-🛡️ PhishGuard: Neural Link Detection System
-PhishGuard ek lightweight aur modern web application hai jo users ko malicious phishing links se bachane ke liye banaya gaya hai. Yeh tool real-time mein URLs ko scan karta hai aur unhe Safe, Suspicious, ya Malicious categorize karta hai.
+🛡️ PhishGuard: Intelligent Phishing Detection System
+PhishGuard is a lightweight, real-time URL security scanner built to protect users from phishing attacks and "Typosquatting" (fake domains like faceb00k or 1inkdin). It combines a local SQL blacklist with a powerful heuristic engine to categorize links as Safe, Suspicious, or Malicious.
+
 🚀 Key Features
- * Real-time Heuristic Analysis: Bina kisi external API ke link ke structure (TLDs aur Keywords) ko analyze karta hai.
- * Blacklist Database: SQLite3 ka use karke known phishing domains ko turant detect karta hai.
- * Activity Logging: Har ek scan ka record backend database mein save hota hai (Audit Trail).
- * Modern UI/UX: Clean, responsive aur dark-themed interface jo use karne mein bohot asaan hai.
- * Zero-False Positive Logic: Optimized algorithms taaki lambe legitimate URLs (jaise Google Drive) ko galti se block na kare.
+
+ * Typosquatting Detection: Automatically identifies character substitutions (e.g., 0 for o, 1 for l) used by hackers to mimic popular brands.
+   
+ * Heuristic Scoring Engine: Analyzes URL structures, suspicious keywords (login, verify, bank), and high-risk TLDs (.xyz, .top, .tk).
+   
+ * Hybrid Security Logic: Cross-references URLs against a local SQLite blacklist while simultaneously running pattern analysis for "Zero-Day" threats.
+   
+ * Responsive Web UI: A clean, modern interface designed for both desktop and mobile users.
+   
+ * Audit Logging: Every scan is timestamped and logged into a database for security monitoring.
+   
 🛠️ Tech Stack
- * Backend: Python (Flask Framework)
- * Database: SQLite3 (Serverless SQL)
- * Frontend: HTML5, CSS3 (Modern Inter & Space Grotesk Fonts)
- * Tools: Pydroid 3 / VS Code, Git
+
+ * Backend: Python 3 (Flask Framework)
+ * Database: SQLite3
+ * Frontend: HTML5, CSS3 (Inter & Space Grotesk Fonts)
+ * Deployment: Render / GitHub
+   
 📂 Project Structure
+
 PhishGuard/
-├── app.py              # Main Flask Backend Logic
-├── init_db.py          # Database Initialization Script
-├── phishguard.db       # SQLite Database File
-├── requirements.txt    # Python Dependencies
+├── app.py              # Core logic & Flask server
+├── init_db.py          # Database schema initialization
+├── phishguard.db       # SQLite database file
+├── requirements.txt    # Project dependencies
 └── templates/
-    └── index.html      # Modern UI Design
+    └── index.html      # Frontend user interface
 
-⚙️ How to Run
- * Dependencies Install Karein:
-   pip install flask
+⚙️ Installation & Setup
 
- * Database Initialize Karein:
+ * Clone the Repository:
+   git clone https://github.com/your-username/PhishGuard.git
+
+ * Install Dependencies:
+   pip install flask gunicorn
+
+ * Initialize Database:
    python init_db.py
 
- * Application Start Karein:
+ * Run the Application:
    python app.py
 
- * Browser Mein Open Karein:
-   http://localhost:5000 ya http://0.0.0.0:5000
-🛡️ Security Logic
-System do layers par kaam karta hai:
- * SQL Layer: Database se domain_name match karta hai.
- * Pattern Layer: Suspicious TLDs (jaise .xyz, .top) aur Keywords (jaise login, verify) ko scan karke risk score calculate karta hai.
+🔍 How it Works
+The system follows a three-step verification process:
+ * Pattern Check: Scans for "looks-alike" characters (e.g., vv instead of w).
+ * Keyword Analysis: Looks for high-pressure words like update-account or secure-login.
+ * Blacklist Lookup: Checks if the domain exists in the known malicious database.
 Developed by: MD Faiz Khan
 Cyber Security Capstone Project 2026
-💡 Ek Chhoti Si Tip:
-Jab aap GitHub par file upload karein, toh ek achha sa Screenshot bhi README mein add kar dena (Optionally). Isse aapka project file bahut impressive lagega.
-Kya aapko GitHub par files upload karne mein koi dikkat aa rahi hai? I can guide you through the mobile browser upload process if needed!
+
+💡 Final Tip for your PDF:
+Since you are submitting this for a Capstone Project, make sure to mention in your "Methodology" section that you chose the Heuristic Engine approach to keep the app fast and efficient on mobile devices (Pydroid).
+Mubarak ho Faiz! Your GitHub is now ready for submission. Would you like me to draft the final Project Conclusion for your PDF report?
