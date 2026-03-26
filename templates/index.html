@@ -1,1 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishGuard | Neural Detection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --emerald: #10B981;
+            --forest: #064E3B;
+            --bg: #F9FAFB;
+            --white: #FFFFFF;
+            --text: #111827;
+            --border: rgba(16, 185, 129, 0.2);
+            --transition: all 0.25s ease;
+        }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- Minimal Nav --- */
+        nav { 
+            padding: 2rem 1rem; 
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            background: var(--white);
+        }
+        .logo { 
+            font-family: 'Space Grotesk'; 
+            font-size: 1.8rem; 
+            font-weight: 700; 
+            color: var(--forest); 
+            text-decoration: none; 
+            letter-spacing: 1px;
+        }
+        .logo span { color: var(--emerald); }
+
+        /* --- Main Content --- */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-text {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .hero-text h1 {
+            font-family: 'Space Grotesk';
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            line-height: 1;
+            color: var(--forest);
+            margin-bottom: 1rem;
+        }
+        .hero-text p {
+            color: #6B7280;
+            font-size: 1.1rem;
+        }
+
+        /* --- Simulator Card --- */
+        .card { 
+            background: var(--white); 
+            padding: 3rem; 
+            border-radius: 16px; 
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 50px rgba(6, 78, 59, 0.05);
+            width: 100%;
+        }
+        
+        .input-wrapper { 
+            display: flex; 
+            gap: 12px; 
+            margin-top: 1rem;
+        }
+        input[type="text"] { 
+            flex: 1; 
+            padding: 18px; 
+            border: 2px solid #E5E7EB; 
+            border-radius: 8px; 
+            outline: none; 
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition); 
+        }
+        input[type="text"]:focus { border-color: var(--emerald); box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); }
+        
+        .btn { 
+            background: var(--forest); 
+            color: white; 
+            padding: 0 35px; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: 700; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition); 
+        }
+        .btn:hover { background: var(--emerald); transform: translateY(-2px); }
+
+        #result-box { 
+            margin-top: 2rem; 
+            padding: 1.5rem; 
+            border-radius: 8px; 
+            display: none; 
+            font-weight: 600; 
+            text-align: center;
+            font-family: 'Space Grotesk';
+            letter-spacing: 0.5px;
+        }
+
+        /* --- Footer --- */
+        footer { 
+            padding: 3rem; 
+            text-align: center; 
+            font-size: 0.8rem; 
+            color: #9CA3AF;
+            border-top: 1px solid var(--border);
+        }
+
+        @media (max-width: 600px) {
+            .input-wrapper { flex-direction: column; }
+            .btn { padding: 18px; }
+            .card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">PHISH<span>GUARD</span></a>
+    </nav>
+
+    <main>
+        <div class="hero-text">
+            <h1>VERIFY <span style="color: var(--emerald);">EVERY</span> LINK.</h1>
+            <p>Enter any URL to run a real-time heuristic analysis against known phishing patterns and malicious TLDs.</p>
+        </div>
+        
+        <div class="card">
+    <form method="POST" class="input-wrapper">
+        <input type="text" name="url" placeholder="Enter suspicious URL (e.g. secure-login-web.xyz)" required>
+        <button type="submit" class="btn">Analyze</button>
+    </form>
+
+    {% if report %}
+        <div id="result-box" style="display: block; 
+            {% if report.status == 'Malicious' %} background: #FEE2E2; color: #DC2626; border: 1px solid #FECACA;
+            {% elif report.status == 'Suspicious' %} background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A;
+            {% else %} background: #D1FAE5; color: #065F46; border: 1px solid #A7F3D0; {% endif %}">
+            
+            {% if report.status == 'Malicious' %} ⚠️ THREAT DETECTED: HIGH PROBABILITY OF PHISHING
+            {% elif report.status == 'Suspicious' %} 🔍 CAUTION: UNUSUAL URL STRUCTURE DETECTED
+            {% else %} ✅ CLEAN: NO IMMEDIATE THREATS FOUND {% endif %}
+            
+            <p style="font-size: 0.8rem; margin-top: 5px; font-weight: 400;">Scanned: {{ report.url }}</p>
+        </div>
+    {% endif %}
+</div>
+    </main>
+
+    <footer>
+        <p>MD Faiz Khan</p>
+    </footer>
+
+    <script>
+        function analyzeURL() {
+            const url = document.getElementById('urlInput').value.trim().toLowerCase();
+            const res = document.getElementById('result-box');
+            
+            if(!url) return;
+
+            res.style.display = "block";
+            res.innerHTML = "SCANNING ENCRYPTION...";
+            res.style.background = "#F3F4F6";
+            res.style.color = "#4B5563";
+
+            // Artificial delay for "Production" feel
+            setTimeout(() => {
+                const suspiciousTLDs = ['.top', '.xyz', '.club', '.info', '.site', '.tk'];
+                const suspiciousKeywords = ['login', 'secure', 'verify', 'update', 'banking', 'account'];
+                
+                let score = 0;
+                
+                // Logic
+                if (suspiciousTLDs.some(tld => url.endsWith(tld))) score += 2;
+                if (suspiciousKeywords.filter(key => url.includes(key)).length >= 2) score += 2;
+                if (url.includes('http://')) score += 1;
+                if (url.length > 50) score += 1;
+
+                if(score >= 3) {
+                    res.innerHTML = "⚠️ THREAT DETECTED: HIGH PROBABILITY OF PHISHING";
+                    res.style.background = "#FEE2E2";
+                    res.style.color = "#DC2626";
+                    res.style.border = "1px solid #FECACA";
+                } else if (score > 0) {
+                    res.innerHTML = "🔍 CAUTION: UNUSUAL URL STRUCTURE DETECTED";
+                    res.style.background = "#FEF3C7";
+                    res.style.color = "#92400E";
+                    res.style.border = "1px solid #FDE68A";
+                } else {
+                    res.innerHTML = "✅ CLEAN: NO IMMEDIATE THREATS FOUND";
+                    res.style.background = "#D1FAE5";
+                    res.style.color = "#065F46";
+                    res.style.border = "1px solid #A7F3D0";
+                }
+            }, 800);
+        }
+
+        // Enter key support
+        document.getElementById('urlInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') analyzeURL();
+        });
+    </script>
+</body>
+</html>
