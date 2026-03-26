@@ -21,7 +21,7 @@ def check_url_security(user_url):
         else:
             # 2. Heuristic Pattern Check (50 character limit REMOVED)
             suspicious_tlds = ['.top', '.xyz', '.club', '.info', '.site', '.tk']
-            suspicious_keywords = ['login', 'secure', 'verify', 'update', 'banking', 'account']
+            suspicious_keywords = ['login', 'secure', 'verify', 'update', 'banking', 'account', '00', '1inkdin']
             
             score = 0
             # Agar TLD suspicious hai (Score 2)
