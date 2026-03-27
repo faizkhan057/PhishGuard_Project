@@ -4,19 +4,19 @@ import os
 db_path = os.path.join(os.path.dirname(__file__), 'phishguard.db')
 
 def init_db():
-    
+    # Delete Old Files
     if os.path.exists(db_path):
         os.remove(db_path)
-        print("Purani database delete kar di gayi.")
+        print("Deleted Old files.")
 
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
-    # Create Tables
+    # Creating Tables
     cursor.execute('CREATE TABLE blacklisted_urls (id INTEGER PRIMARY KEY, domain_name TEXT UNIQUE, threat_type TEXT)')
     cursor.execute('CREATE TABLE scan_logs (scan_id INTEGER PRIMARY KEY, scanned_url TEXT, result_status TEXT, scan_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
 
-    # Insert Data
+    # Data insertion
     test_data = [
         ('paypa1-support.co', 'Credential Theft'),
         ('secure-login-bank.xyz', 'Phishing'),
@@ -27,7 +27,8 @@ def init_db():
     
     conn.commit()
     conn.close()
-    print("Nayi database 'phishguard.db' taiyaar hai!")
+    print("New Database 'phishguard.db' Created!")
 
 if __name__ == "__main__":
     init_db()
+    
